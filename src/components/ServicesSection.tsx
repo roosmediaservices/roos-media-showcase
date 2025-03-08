@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, FileImage } from "lucide-react";
+import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, FileImage, Ruler, Film, Cube, Layers } from "lucide-react";
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -81,6 +81,42 @@ const ServicesSection = () => {
       ]
     },
     {
+      icon: <Ruler size={40} />,
+      title: "Floor Plan Design",
+      description: "Create precise, visually appealing floor plans to showcase property layouts",
+      features: [
+        "2D Floor Plan Creation",
+        "3D Floor Plan Rendering",
+        "Measurements & Dimensions",
+        "Room Labels & Annotations",
+        "Custom Branding Options"
+      ]
+    },
+    {
+      icon: <Film size={40} />,
+      title: "Short Form Video Editing",
+      description: "Craft engaging short-form videos optimized for social media platforms",
+      features: [
+        "Social Media Optimized Formats",
+        "Quick Property Highlights",
+        "Vertical Video Editing",
+        "Caption & Text Integration",
+        "Engaging Transitions & Effects"
+      ]
+    },
+    {
+      icon: <Cube size={40} />,
+      title: "3D Animation & CGI",
+      description: "Create immersive 3D animations and computer-generated imagery for properties",
+      features: [
+        "3D Property Visualization",
+        "Walkthrough Animations",
+        "Architectural Rendering",
+        "Realistic Lighting & Textures",
+        "Custom Animation Projects"
+      ]
+    },
+    {
       icon: <Image size={40} />,
       title: "360° & Panorama Editing",
       description: "Enhance immersive property viewing experiences with expert editing",
@@ -93,7 +129,7 @@ const ServicesSection = () => {
       ]
     },
     {
-      icon: <FileImage size={40} />,
+      icon: <Layers size={40} />,
       title: "Marketing Materials",
       description: "Create cohesive visual marketing assets for property listings",
       features: [
