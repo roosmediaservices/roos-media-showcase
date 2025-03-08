@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, FileImage, Ruler, Film, Cube, Layers } from "lucide-react";
+import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, Ruler, Film, Layers, Box3D } from "lucide-react";
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -105,7 +105,7 @@ const ServicesSection = () => {
       ]
     },
     {
-      icon: <Cube size={40} />,
+      icon: <Box3D size={40} />,
       title: "3D Animation & CGI",
       description: "Create immersive 3D animations and computer-generated imagery for properties",
       features: [
