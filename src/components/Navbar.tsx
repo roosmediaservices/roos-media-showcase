@@ -2,26 +2,30 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronRight, Camera } from "lucide-react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface NavItemProps {
-  href: string;
+  to: string;
   label: string;
   onClick: () => void;
-  isExternalLink?: boolean;
+  isExact?: boolean;
+  isLink?: boolean;
 }
 
-const NavItem = ({ href, label, onClick, isExternalLink = false }: NavItemProps) => {
-  if (isExternalLink) {
+const NavItem = ({ to, label, onClick, isExact = false, isLink = false }: NavItemProps) => {
+  const location = useLocation();
+  const isActive = isExact ? location.pathname === to : location.pathname.startsWith(to);
+  
+  if (isLink) {
     return (
       <li>
         <Link
-          to={href}
+          to={to}
           onClick={onClick}
-          className="relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center"
+          className={`relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center ${isActive ? 'text-roos-600' : ''}`}
         >
           {label}
-          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-roos-600 transition-all duration-300 group-hover:w-full"></span>
+          <span className={`absolute left-0 bottom-0 h-0.5 ${isActive ? 'w-full bg-roos-600' : 'w-0 bg-roos-600 transition-all duration-300 group-hover:w-full'}`}></span>
         </Link>
       </li>
     );
@@ -29,20 +33,23 @@ const NavItem = ({ href, label, onClick, isExternalLink = false }: NavItemProps)
   
   return (
     <li>
-      <a
-        href={href}
+      <Link
+        to={to}
         onClick={(e) => {
-          e.preventDefault();
-          document.querySelector(href)?.scrollIntoView({
-            behavior: 'smooth'
-          });
+          if (to.startsWith('/#')) {
+            e.preventDefault();
+            const target = document.querySelector(to.substring(1));
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
           onClick();
         }}
-        className="relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center"
+        className={`relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center ${isActive ? 'text-roos-600' : ''}`}
       >
         {label}
-        <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-roos-600 transition-all duration-300 group-hover:w-full"></span>
-      </a>
+        <span className={`absolute left-0 bottom-0 h-0.5 ${isActive ? 'w-full bg-roos-600' : 'w-0 bg-roos-600 transition-all duration-300 group-hover:w-full'}`}></span>
+      </Link>
     </li>
   );
 };
@@ -50,6 +57,7 @@ const NavItem = ({ href, label, onClick, isExternalLink = false }: NavItemProps)
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -85,13 +93,13 @@ const Navbar = () => {
           {/* Desktop menu */}
           <div className="hidden md:block">
             <ul className="flex space-x-6">
-              <NavItem href="#services" label="Services" onClick={closeMenu} />
-              <NavItem href="#about" label="About" onClick={closeMenu} />
-              <NavItem href="#portfolio" label="Portfolio" onClick={closeMenu} />
-              <NavItem href="#testimonials" label="Testimonials" onClick={closeMenu} />
-              <NavItem href="#team" label="Our Team" onClick={closeMenu} />
-              <NavItem href="/blog" label="Blog" onClick={closeMenu} isExternalLink={true} />
-              <NavItem href="#contact" label="Contact" onClick={closeMenu} />
+              <NavItem to="/services" label="Services" onClick={closeMenu} isLink={true} />
+              <NavItem to="/about" label="About" onClick={closeMenu} isLink={true} />
+              <NavItem to="/portfolio" label="Portfolio" onClick={closeMenu} isLink={true} />
+              <NavItem to="/testimonials" label="Testimonials" onClick={closeMenu} isLink={true} />
+              <NavItem to="/team" label="Our Team" onClick={closeMenu} isLink={true} />
+              <NavItem to="/blog" label="Blog" onClick={closeMenu} isLink={true} />
+              <NavItem to="/contact" label="Contact" onClick={closeMenu} isLink={true} />
             </ul>
           </div>
           
@@ -117,13 +125,13 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden mt-2 py-3 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg animate-fade-in">
             <ul className="flex flex-col space-y-3 px-4 py-2">
-              <NavItem href="#services" label="Services" onClick={closeMenu} />
-              <NavItem href="#about" label="About" onClick={closeMenu} />
-              <NavItem href="#portfolio" label="Portfolio" onClick={closeMenu} />
-              <NavItem href="#testimonials" label="Testimonials" onClick={closeMenu} />
-              <NavItem href="#team" label="Our Team" onClick={closeMenu} />
-              <NavItem href="/blog" label="Blog" onClick={closeMenu} isExternalLink={true} />
-              <NavItem href="#contact" label="Contact" onClick={closeMenu} />
+              <NavItem to="/services" label="Services" onClick={closeMenu} isLink={true} />
+              <NavItem to="/about" label="About" onClick={closeMenu} isLink={true} />
+              <NavItem to="/portfolio" label="Portfolio" onClick={closeMenu} isLink={true} />
+              <NavItem to="/testimonials" label="Testimonials" onClick={closeMenu} isLink={true} />
+              <NavItem to="/team" label="Our Team" onClick={closeMenu} isLink={true} />
+              <NavItem to="/blog" label="Blog" onClick={closeMenu} isLink={true} />
+              <NavItem to="/contact" label="Contact" onClick={closeMenu} isLink={true} />
               <li className="pt-3">
                 <Button className="bg-roos-600 hover:bg-roos-700 text-white w-full font-medium shadow-md">
                   Get a Quote <ChevronRight className="ml-1 h-4 w-4" />
