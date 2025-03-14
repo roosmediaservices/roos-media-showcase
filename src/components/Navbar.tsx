@@ -1,32 +1,51 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight, Camera } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 interface NavItemProps {
   href: string;
   label: string;
   onClick: () => void;
+  isExternalLink?: boolean;
 }
 
-const NavItem = ({ href, label, onClick }: NavItemProps) => (
-  <li>
-    <a
-      href={href}
-      onClick={(e) => {
-        e.preventDefault();
-        document.querySelector(href)?.scrollIntoView({
-          behavior: 'smooth'
-        });
-        onClick();
-      }}
-      className="relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center"
-    >
-      {label}
-      <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-roos-600 transition-all duration-300 group-hover:w-full"></span>
-    </a>
-  </li>
-);
+const NavItem = ({ href, label, onClick, isExternalLink = false }: NavItemProps) => {
+  if (isExternalLink) {
+    return (
+      <li>
+        <Link
+          to={href}
+          onClick={onClick}
+          className="relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center"
+        >
+          {label}
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-roos-600 transition-all duration-300 group-hover:w-full"></span>
+        </Link>
+      </li>
+    );
+  }
+  
+  return (
+    <li>
+      <a
+        href={href}
+        onClick={(e) => {
+          e.preventDefault();
+          document.querySelector(href)?.scrollIntoView({
+            behavior: 'smooth'
+          });
+          onClick();
+        }}
+        className="relative group text-gray-700 hover:text-roos-600 transition-colors px-3 py-2 text-sm font-medium flex items-center"
+      >
+        {label}
+        <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-roos-600 transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </li>
+  );
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,9 +76,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex-shrink-0">
-            <a href="#hero" className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <Camera className="h-8 w-8 text-roos-600 mr-2" />
               <span className="text-2xl font-bold bg-gradient-to-r from-roos-800 to-roos-500 bg-clip-text text-transparent">Roos Media</span>
-            </a>
+            </Link>
           </div>
           
           {/* Desktop menu */}
@@ -70,6 +90,7 @@ const Navbar = () => {
               <NavItem href="#portfolio" label="Portfolio" onClick={closeMenu} />
               <NavItem href="#testimonials" label="Testimonials" onClick={closeMenu} />
               <NavItem href="#team" label="Our Team" onClick={closeMenu} />
+              <NavItem href="/blog" label="Blog" onClick={closeMenu} isExternalLink={true} />
               <NavItem href="#contact" label="Contact" onClick={closeMenu} />
             </ul>
           </div>
@@ -101,6 +122,7 @@ const Navbar = () => {
               <NavItem href="#portfolio" label="Portfolio" onClick={closeMenu} />
               <NavItem href="#testimonials" label="Testimonials" onClick={closeMenu} />
               <NavItem href="#team" label="Our Team" onClick={closeMenu} />
+              <NavItem href="/blog" label="Blog" onClick={closeMenu} isExternalLink={true} />
               <NavItem href="#contact" label="Contact" onClick={closeMenu} />
               <li className="pt-3">
                 <Button className="bg-roos-600 hover:bg-roos-700 text-white w-full font-medium shadow-md">

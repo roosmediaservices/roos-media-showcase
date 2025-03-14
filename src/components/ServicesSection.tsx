@@ -1,24 +1,27 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, Ruler, Film, Layers, Box3D } from "lucide-react";
+import { CheckSquare, Camera, Video, PenTool, LayoutGrid, Image, Ruler, Film, Layers, Box } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 interface ServiceCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
   features: string[];
+  slug: string;
 }
 
-const ServiceCard = ({ icon, title, description, features }: ServiceCardProps) => (
-  <Card className="service-card h-full">
+const ServiceCard = ({ icon, title, description, features, slug }: ServiceCardProps) => (
+  <Card className="service-card h-full flex flex-col">
     <CardHeader>
       <div className="mb-4 text-roos-600">{icon}</div>
       <CardTitle className="text-xl font-bold">{title}</CardTitle>
       <CardDescription>{description}</CardDescription>
     </CardHeader>
-    <CardContent>
-      <ul className="space-y-2">
+    <CardContent className="flex-grow">
+      <ul className="space-y-2 mb-4">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
             <CheckSquare className="h-5 w-5 text-roos-600 mr-2 shrink-0 mt-0.5" />
@@ -26,6 +29,11 @@ const ServiceCard = ({ icon, title, description, features }: ServiceCardProps) =
           </li>
         ))}
       </ul>
+      <div className="mt-auto pt-4">
+        <Link to={`/services/${slug}`}>
+          <Button variant="outline" className="w-full">Learn More</Button>
+        </Link>
+      </div>
     </CardContent>
   </Card>
 );
@@ -42,7 +50,8 @@ const ServicesSection = () => {
         "Color Correction",
         "Object Removal",
         "Virtual Staging"
-      ]
+      ],
+      slug: "real-estate-photo-editing"
     },
     {
       icon: <Video size={40} />,
@@ -54,7 +63,8 @@ const ServicesSection = () => {
         "Music Integration",
         "Title & Text Additions",
         "Drone Footage Enhancement"
-      ]
+      ],
+      slug: "video-editing"
     },
     {
       icon: <PenTool size={40} />,
@@ -66,7 +76,8 @@ const ServicesSection = () => {
         "Interior Lighting Adjustment",
         "Detailed Object Retouching",
         "Custom Editing Requests"
-      ]
+      ],
+      slug: "advanced-retouching"
     },
     {
       icon: <LayoutGrid size={40} />,
@@ -78,7 +89,8 @@ const ServicesSection = () => {
         "Multiple Design Options",
         "Exterior & Interior Staging",
         "Before & After Comparisons"
-      ]
+      ],
+      slug: "virtual-staging"
     },
     {
       icon: <Ruler size={40} />,
@@ -90,7 +102,8 @@ const ServicesSection = () => {
         "Measurements & Dimensions",
         "Room Labels & Annotations",
         "Custom Branding Options"
-      ]
+      ],
+      slug: "floor-plan-design"
     },
     {
       icon: <Film size={40} />,
@@ -102,10 +115,11 @@ const ServicesSection = () => {
         "Vertical Video Editing",
         "Caption & Text Integration",
         "Engaging Transitions & Effects"
-      ]
+      ],
+      slug: "short-form-video-editing"
     },
     {
-      icon: <Box3D size={40} />,
+      icon: <Box size={40} />,
       title: "3D Animation & CGI",
       description: "Create immersive 3D animations and computer-generated imagery for properties",
       features: [
@@ -114,7 +128,8 @@ const ServicesSection = () => {
         "Architectural Rendering",
         "Realistic Lighting & Textures",
         "Custom Animation Projects"
-      ]
+      ],
+      slug: "3d-animation-cgi"
     },
     {
       icon: <Image size={40} />,
@@ -126,7 +141,8 @@ const ServicesSection = () => {
         "Virtual Tour Enhancement",
         "360° Photo Editing",
         "Interactive Element Addition"
-      ]
+      ],
+      slug: "360-panorama-editing"
     },
     {
       icon: <Layers size={40} />,
@@ -138,7 +154,8 @@ const ServicesSection = () => {
         "Branded Templates",
         "Floor Plan Enhancement",
         "Custom Collateral Design"
-      ]
+      ],
+      slug: "marketing-materials"
     }
   ];
 
@@ -157,6 +174,7 @@ const ServicesSection = () => {
             title={service.title}
             description={service.description}
             features={service.features}
+            slug={service.slug}
           />
         ))}
       </div>
